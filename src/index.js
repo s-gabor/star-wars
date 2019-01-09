@@ -1,5 +1,6 @@
 const baseURL = 'https://swapi.co/api/';
 const ulResult = document.getElementById('ul-result');
+const divSearch = document.getElementById("searchField");
 
 
 const addChildToParent = (child, parent, data) => {
@@ -28,18 +29,23 @@ const fetchAndDisplayData = (selection) => {
 					fetch(url)
 						.then(result => result.json())
 						.then(item => {
-							console.log(item);
-								if (item.detail !== 'Not found') {
-									addChildToParent('li', ulResult, data);
-								}
-							})
+							if (item.detail !== 'Not found') {
+								addChildToParent('li', ulResult, item.name);
+							}
+						})
 				}
 			})
 }
 
 
+divSearch.style.display = "none";
+
 document.getElementById('filters').addEventListener('change', (event) => {
 	let selection = event.target.value;
+	document.querySelector('body > h3').innerHTML = '';
+	divSearch.style.display = "flex";
+	document.querySelector('#searchField > input').setAttribute('placeholder', 'search for ' + selection);
+
 	document.getElementById('ul-result').innerHTML = '';
 	fetchAndDisplayData(selection);
 });
