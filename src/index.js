@@ -18,16 +18,19 @@ const fetchAndDisplayData = (selection) => {
 				// load first 10 items
 				let first10items = resultsParsed.results;
 				for (let item of first10items) {
-					addChildToParent('li', ulResult, item.name);
+					let data;
+					selection.toLowerCase() === 'films' ? data = item.title : data = item.name;
+					addChildToParent('li', ulResult, data);
 				}
-				// load the remaining items
+				// load the remaining items (if more than 10)
 				for (i = 10; i < resultsParsed.count; i++) {
 					let url = baseURL + selection + '/' + i;
 					fetch(url)
 						.then(result => result.json())
 						.then(item => {
+							console.log(item);
 								if (item.detail !== 'Not found') {
-									addChildToParent('li', ulResult, item.name);
+									addChildToParent('li', ulResult, data);
 								}
 							})
 				}
